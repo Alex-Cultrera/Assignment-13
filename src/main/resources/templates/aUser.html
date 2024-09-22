@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+	<head>
+		<title>Users</title>
+	</head>
+	<body>
+		<h1>Users</h1>
+		
+		<div>
+			<form action="" method="post">
+				<div>
+					Username: <input type="text" th:field="${user.username}" />
+				</div>
+				<div>
+					Password: <input type="password" th:field="${user.password}" />
+				</div>
+				<div>
+					Full Name: <input type="text" th:field="${user.name}" />
+				</div>
+				<div>
+					<hr/>
+				</div>
+				<div>
+					Address Line 1: <!-- <input type="text" th:field="${address.addressLine1}" /> -->
+				</div>
+				<div>
+					Address Line 2: <!-- <input type="text" th:field="${address.addressLine2}" /> -->
+				</div>
+				<div>
+					City: <!-- <input type="text" th:field="${address.city}" /> -->
+				</div>
+				<div>
+					Region: <!-- <input type="text" th:field="${address.region}" /> -->
+				</div>
+				<div>
+					Country: <!-- <input type="text" th:field="${address.country}" /> -->
+				</div>
+				<div>
+					Zip Code: <!-- <input type="text" th:field="${address.zipCode}" /> -->
+				</div>
+				<div>
+					<br>
+				</div>
+				<div>
+					<input type="submit" value="Update User Account" />
+				</div>
+				<div th:action="@{/users/{userId}/delete(userId=${user.userId})}" method="post">
+					<input type="submit" value="Delete User Account" />
+				</div>
+				<div>
+					<br>
+					<hr/>
+				</div>
+			</form>
+			<h2>
+				Accounts
+			</h2>
+			<div th:each="account : ${user.accounts}">
+				<span> <a th:href="@{/users/{userId}/accounts/{accountId}(userId=${user.userId})(accountId=${account.accountId})}"> [[${account.accountName}]]</a></span>
+				<br>
+			</div>
+			<div>
+				<br>
+				<input type="submit" value="Create New Bank Account" />
+			</div>
+			<div>
+				<br>
+				<a href="/users" th:if="${userId != null}" style="margin-right: 2em">Back</a>
+			</div>
+
+		</div>
+		
+
+	</body>
+</html>
