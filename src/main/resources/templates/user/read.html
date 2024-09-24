@@ -42,21 +42,22 @@
 					<br>
 				</div>
 				<div>
-					<input type="submit" value="Update User Account" />
+					<input type="submit" value="Update User" />
 				</div>
-				<div th:action="@{/users/{userId}/delete(userId=${user.userId})}" method="post">
-					<input type="submit" value="Delete User Account" />
-				</div>
+			</form>
+			<form th:action="@{/users/{userId}/delete(userId=${user.userId})}" method="post">
+				<input type="submit" value="Delete User" />
+			</form>
+
 				<div>
 					<br>
 					<hr/>
 				</div>
-			</form>
 			<h2>
 				Accounts
 			</h2>
 			<div th:each="account : ${user.accounts}">
-				<span> <a th:href="@{/users/{userId}/accounts/{accountId}(userId=${user.userId})(accountId=${account.accountId})}"> [[${account.accountName}]]</a></span>
+				<span> <a th:href="@{/users{userId}/accounts/{accountId}(userId=${user.userId})(accountId=${account.accountId})}"> [[${account.accountName}]]</a></span>
 				<br>
 			</div>
 			<div>
@@ -65,7 +66,7 @@
 			</div>
 			<div>
 				<br>
-				<a href="/users" th:if="${userId != null}" style="margin-right: 2em">Back</a>
+				<a th:href="@{/users}" th:if="${userId != null}" style="margin-right: 2em">Back</a>
 			</div>
 
 		</div>
