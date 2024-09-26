@@ -64,50 +64,38 @@ public class UserController {
 			return "redirect:/users";
 		}
 
-		model.put("users", Arrays.asList(user));
+//		model.put("users", Arrays.asList(user));
 		model.put("user", user);
-		model.put("address", user.getAddress());
+//		model.put("address", user.getAddress());
 		return "user/read";
 	}
-	
-	@PostMapping("/users/{userId}")
-	public String postOneUser (User user) {
-		userService.saveUser(user);
 
-		return "redirect:/users/"+user.getUserId();
+	@PostMapping("/users/{userId}/update")
+	public String updateUser (@PathVariable Long userId, User user) {
+		User existingUser = userService.findById(userId);
+		if (existingUser != null) {
+			existingUser.setUsername(user.getUsername());
+			existingUser.setPassword(user.getPassword());
+			existingUser.setName(user.getName());
+
+			Address address = existingUser.getAddress();
+			if (address != null) {
+				address.setAddressLine1(user.getAddress().getAddressLine1());
+				address.setAddressLine2(user.getAddress().getAddressLine2());
+				address.setCity(user.getAddress().getCity());
+				address.setRegion(user.getAddress().getRegion());
+				address.setCountry(user.getAddress().getCountry());
+				address.setZipCode(user.getAddress().getZipCode());
+
+				addressService.saveAddress(address);
+			}
+
+			userService.saveUser(existingUser);
+		}
+
+		return "redirect:/users/" + user.getUserId();
 	}
 
-//	@PostMapping("/users/{userId}/update")
-//	public String updateOneUser (@PathVariable Long userId, User user) {
-//		Address address = user.getAddress();
-//		userService.updateUserAddress(userId, address);
-//
-////		if (existingUser == null) {
-////			return "redirect:/users";
-////		}
-////
-////		existingUser.setUsername(user.getUsername());
-////		existingUser.setPassword(user.getPassword());
-////		existingUser.setName(user.getName());
-////
-////		Address address = user.getAddress();
-////		if (address != null) {
-////
-////			if (existingUser.getAddress() != null) {
-////				existingUser.getAddress().setAddressLine1(address.getAddressLine1());
-////				existingUser.getAddress().setAddressLine2(address.getAddressLine2());
-////				existingUser.getAddress().setCity(address.getCity());
-////				existingUser.getAddress().setRegion(address.getRegion());
-////				existingUser.getAddress().setCountry(address.getCountry());
-////				existingUser.getAddress().setZipCode(address.getZipCode());
-////			} else {
-////				existingUser.setAddress(address);
-////			}
-////		}
-//		userService.saveUser(existingUser);
-//
-//		return "redirect:/users/" + userId;
-//	}
 	
 	@PostMapping("/users/{userId}/delete")
 	public String deleteOneUser (@PathVariable Long userId) {
@@ -115,3 +103,4 @@ public class UserController {
 		return "redirect:/users";
 	}
 }
+

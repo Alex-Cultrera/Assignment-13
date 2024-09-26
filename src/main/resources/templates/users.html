@@ -21,18 +21,18 @@
 					<input type="submit" value="Update User" />
 				</div>
 			</form>
-			<form th:action="@{/users/{userId}/delete(userId=${user.userId})}" method="post">
+			<form th:action="@{/users/{addressId}/delete(addressId=${user.addressId})}" method="post">
 				<input type="submit" value="Delete User" />
 			</form>
 		</div>
 		
 		<div th:unless="${#lists.size(users) == 1}" th:each="user : ${users}">
-		    <span> <a th:href="@{/users/{userId}(userId=${user.userId})}">[[${user.userId}]]</a></span><br/>
+		    <span> <a th:href="@{/users/{addressId}(addressId=${user.userId})}">[[${user.userId}]]</a></span><br/>
 			<span th:text="${user.username}"></span><br/>
 			<span th:text="${user.name}"></span><br/>
 			<span th:text="${user.password}"></span>
 			<div th:each="account : ${user.accounts}">
-				<span> <a th:href="@{/users/{userId}/accounts/{accountId}(userId=${user.userId})(accountId=${account.accountId})}"> [[${account.accountName}]]</a></span>
+				<span> <a th:href="@{/users/{addressId}/accounts/{accountId}(addressId=${user.addressId})(accountId=${account.accountId})}"> [[${account.accountName}]]</a></span>
 			</div>
 			<hr/>
 		</div>

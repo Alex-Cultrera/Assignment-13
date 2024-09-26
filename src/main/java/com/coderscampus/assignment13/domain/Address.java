@@ -1,15 +1,10 @@
 package com.coderscampus.assignment13.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Address {
-	private Long userId;
+	private Long addressId;
 	private User user;
 	private String addressLine1;
 	private String addressLine2;
@@ -19,16 +14,17 @@ public class Address {
 	private String zipCode;
 	
 	@Id
-	public Long getUserId() {
-		return userId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Long getAddressId() {
+		return addressId;
 	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setAddressId(Long addressId) {
+		this.addressId = addressId;
 	}
 	
 	@OneToOne
 	@MapsId
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="user_id", nullable = false)
 	public User getUser() {
 		return user;
 	}
