@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.coderscampus.assignment13.domain.Account;
 import com.coderscampus.assignment13.domain.Address;
 import com.coderscampus.assignment13.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.coderscampus.assignment13.domain.Account;
 import com.coderscampus.assignment13.domain.User;
 import com.coderscampus.assignment13.repository.AccountRepository;
 import com.coderscampus.assignment13.repository.UserRepository;
@@ -24,6 +24,12 @@ public class UserService {
 	private AccountRepository accountRepo;
 	@Autowired
 	private AddressRepository addressRepo;
+	@Autowired
+	private AccountService accountService;
+	@Autowired
+	private AddressService addressService;
+	@Autowired
+	private UserService userService;
 	
 	public List<User> findByUsername(String username) {
 		return userRepo.findByUsername(username);
@@ -55,22 +61,9 @@ public class UserService {
 	}
 
 	public User saveUser(User user) {
-//		if (user.getAddressId() == null) {
-//
-//
-//			Account checking = new Account();
-//			checking.setAccountName("Checking Account");
-//			checking.getUsers().add(user);
-//			Account savings = new Account();
-//			savings.setAccountName("Savings Account");
-//			savings.getUsers().add(user);
-//
-//			user.getAccounts().add(checking);
-//			user.getAccounts().add(savings);
-//
-//			accountRepo.save(checking);
-//			accountRepo.save(savings);
-//		}
+		if (user.getUserId() == null) {
+			accountService.createDefaultUserAccounts(user);
+		}
 		return userRepo.save(user);
 	}
 
@@ -85,5 +78,28 @@ public class UserService {
 			userRepo.save(user);
 		}
 	}
+
+	public void updateExistingUser (User existingUser, User user) {
+		if (existingUser != null) {
+			existingUser.setUsername(user.getUsername());
+			existingUser.setPassword(user.getPassword());
+			existingUser.setName(user.getName());
+
+			Address address = existingUser.getAddress();
+			if (address != null) {
+				address.setAddressLine1(user.getAddress().getAddressLine1());
+				address.setAddressLine2(user.getAddress().getAddressLine2());
+				address.setCity(user.getAddress().getCity());
+				address.setRegion(user.getAddress().getRegion());
+				address.setCountry(user.getAddress().getCountry());
+				address.setZipCode(user.getAddress().getZipCode());
+
+				addressService.saveAddress(address);
+			}
+
+			userService.saveUser(existingUser);
+		}
+	}
+
 
 }

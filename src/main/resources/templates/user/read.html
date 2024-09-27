@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 	<head>
-		<title>Users</title>
+		<title>User</title>
 	</head>
 	<body>
-		<h1>Users</h1>
+		<h1>User</h1>
 		
 		<div>
 			<form th:action="@{/users/{userId}/update(userId=${user.userId})}" method="post">
@@ -56,21 +56,24 @@
 			<h2>
 				Accounts
 			</h2>
-			<div th:each="account : ${user.accounts}">
-				<span> <a th:href="@{/users{userId}/accounts/{accountId}(userId=${user.userId})(accountId=${account.accountId})}"> [[${account.accountName}]]</a></span>
-				<br>
-			</div>
-			<div>
-				<br>
-				<input type="submit" value="Create New Bank Account" />
-			</div>
-			<div>
-				<br>
-				<a th:href="@{/users}" th:if="${userId != null}" style="margin-right: 2em">Back</a>
-			</div>
+				<div th:each="account : ${accounts}">
+					<span> <a th:href="@{/users/{userId}/account/{accountId}(userId=${user.userId})(accountId=${account.accountId})}"> [[${account.accountName}]]</a></span>
+					<br>
+				</div>
+				<div>
+					<br>
+					<form th:action="@{/users/{userId}/account(userId=${user.userId})}" method="post">
+						<input type="submit" value="Create New Bank Account" />
+					</form>
+				</div>
+				<div>
+					<br>
+					<a th:href="@{/users}" th:if="${userId != null}" style="margin-right: 2em">Back</a>
+				</div>
 
 		</div>
 		
 
 	</body>
 </html>
+

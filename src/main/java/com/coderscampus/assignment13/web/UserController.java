@@ -3,7 +3,6 @@ package com.coderscampus.assignment13.web;
 import java.util.Arrays;
 import java.util.Set;
 
-import com.coderscampus.assignment13.domain.Address;
 import com.coderscampus.assignment13.service.AccountService;
 import com.coderscampus.assignment13.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,30 +28,23 @@ public class UserController {
 	@GetMapping("/users")
 	public String getAllUsers(ModelMap model) {
 		Set<User> users = userService.findAll();
-
 		model.put("users", users);
 		if (users.size() == 1) {
 			model.put("user", users.iterator().next());
 		}
-
 		return "users";
 	}
 
 	@GetMapping("/register")
 	public String getCreateUser (ModelMap model) {
-
 		model.put("user", new User());
-
 		return "user/create";
 	}
 
 	@PostMapping("/register")
 	public String postCreateUser (User user) {
-		Address address = new Address();
-		user.setAddress(address);
-		address.setUser(user);
-		System.out.println(user);
-		addressService.saveAddress(address);
+		addressService.createNewUserAddress(user);
+		accountService.createDefaultUserAccounts(user);
 		userService.saveUser(user);
 		return "redirect:/register";
 	}
@@ -63,40 +55,19 @@ public class UserController {
 		if (user == null) {
 			return "redirect:/users";
 		}
-
-//		model.put("users", Arrays.asList(user));
+		model.put("users", Arrays.asList(user));
 		model.put("user", user);
-//		model.put("address", user.getAddress());
+		model.put("accounts", user.getAccounts());
 		return "user/read";
 	}
 
 	@PostMapping("/users/{userId}/update")
-	public String updateUser (@PathVariable Long userId, User user) {
+	public String updateOneUser(@PathVariable Long userId, User user) {
 		User existingUser = userService.findById(userId);
-		if (existingUser != null) {
-			existingUser.setUsername(user.getUsername());
-			existingUser.setPassword(user.getPassword());
-			existingUser.setName(user.getName());
-
-			Address address = existingUser.getAddress();
-			if (address != null) {
-				address.setAddressLine1(user.getAddress().getAddressLine1());
-				address.setAddressLine2(user.getAddress().getAddressLine2());
-				address.setCity(user.getAddress().getCity());
-				address.setRegion(user.getAddress().getRegion());
-				address.setCountry(user.getAddress().getCountry());
-				address.setZipCode(user.getAddress().getZipCode());
-
-				addressService.saveAddress(address);
-			}
-
-			userService.saveUser(existingUser);
-		}
-
+		userService.updateExistingUser(existingUser, user);
 		return "redirect:/users/" + user.getUserId();
 	}
 
-	
 	@PostMapping("/users/{userId}/delete")
 	public String deleteOneUser (@PathVariable Long userId) {
 		userService.delete(userId);

@@ -1,5 +1,6 @@
 package com.coderscampus.assignment13.service;
 
+import com.coderscampus.assignment13.domain.Address;
 import com.coderscampus.assignment13.domain.User;
 import com.coderscampus.assignment13.domain.Account;
 import com.coderscampus.assignment13.repository.UserRepository;
@@ -7,10 +8,8 @@ import com.coderscampus.assignment13.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class AccountService {
@@ -19,27 +18,11 @@ public class AccountService {
 	private AccountRepository accountRepo;
 	@Autowired
 	private UserRepository userRepo;
-	
-//	public List<Account> findByAccountName(String accountName) {
-//		return accountRepo.findByAccountName(accountName);
-//	}
-//
-//	public List<Account> findByNameAndAccountname(String name, String accountName) {
-//		return accountRepo.findByNameAndAccountname(name, accountName);
-//	}
-//
-//	public List<Account> findByCreatedDateBetween(LocalDate date1, LocalDate date2) {
-//		return accountRepo.findByCreatedDateBetween(date1, date2);
-//	}
-//
-//	public Account findExactlyOneAccountByAccountname(String accountName) {
-//		List<Account> accounts = accountRepo.findExactlyOneAccountByAccountname(accountName);
-//		if (accounts.size() > 0)
-//			return accounts.get(0);
-//		else
-//			return new Account();
-//	}
-	
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private AccountService accountService;
+
 	public List<Account> findAll () {
 		return accountRepo.findAll();
 	}
@@ -56,4 +39,39 @@ public class AccountService {
 	public void delete(Long accountId) {
 		accountRepo.deleteById(accountId);
 	}
+
+	public void createDefaultUserAccounts(User user) {
+		Account checking = new Account();
+		checking.setAccountName("Checking Account");
+		checking.getUsers().add(user);
+		Account savings = new Account();
+		savings.setAccountName("Savings Account");
+		savings.getUsers().add(user);
+
+		user.getAccounts().add(checking);
+		user.getAccounts().add(savings);
+		accountRepo.save(checking);
+		accountRepo.save(savings);
+	}
+
+	public Account createNewUserAccount(User user) {
+		Account account = new Account();
+		int numberOfAccounts = user.getAccounts().size();
+		int nextAccount = numberOfAccounts + 1;
+		account.setAccountName("Account #" + nextAccount);
+		account.getUsers().add(user);
+		user.getAccounts().add(account);
+		accountRepo.save(account);
+		return account;
+	}
+
+	public void updateExistingAccount (Account existingAccount, Account account, User existingUser, User user) {
+		if (existingAccount != null) {
+			existingAccount.setAccountName(account.getAccountName());
+			existingAccount.getUsers().add(user);
+			user.getAccounts().add(existingAccount);
+			accountRepo.save(existingAccount);
+		}
+	}
+
 }
