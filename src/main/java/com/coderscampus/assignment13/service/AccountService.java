@@ -54,7 +54,7 @@ public class AccountService {
 		accountRepo.save(savings);
 	}
 
-	public Account createNewUserAccount(User user) {
+	public Account createNewAccountForUser(User user) {
 		Account account = new Account();
 		int numberOfAccounts = user.getAccounts().size();
 		int nextAccount = numberOfAccounts + 1;
@@ -65,12 +65,13 @@ public class AccountService {
 		return account;
 	}
 
-	public void updateExistingAccount (Account existingAccount, Account account, User existingUser, User user) {
+	public void updateExistingAccount (Account existingAccount, Account account, User user) {
 		if (existingAccount != null) {
 			existingAccount.setAccountName(account.getAccountName());
 			existingAccount.getUsers().add(user);
 			user.getAccounts().add(existingAccount);
 			accountRepo.save(existingAccount);
+			userService.saveUser(user);
 		}
 	}
 

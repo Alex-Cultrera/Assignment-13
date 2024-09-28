@@ -62,9 +62,9 @@
 				</div>
 				<div>
 					<br>
-					<form th:action="@{/users/{userId}/account(userId=${user.userId})}" method="post">
+					<a th:href="@{/users/{userId}/account(userId=${user.userId})}" style="margin-right: 2em">
 						<input type="submit" value="Create New Bank Account" />
-					</form>
+					</a>
 				</div>
 				<div>
 					<br>
