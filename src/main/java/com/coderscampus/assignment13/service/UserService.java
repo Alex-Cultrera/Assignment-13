@@ -71,14 +71,6 @@ public class UserService {
 		userRepo.deleteById(userId);
 	}
 
-	public void updateUserAddress(Long userId, Address address) {
-		User user = findById(userId);
-		if (user != null) {
-			user.setAddress(address);
-			userRepo.save(user);
-		}
-	}
-
 	public void updateExistingUser (User existingUser, User user) {
 		if (existingUser != null) {
 			existingUser.setUsername(user.getUsername());
