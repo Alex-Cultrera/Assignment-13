@@ -65,14 +65,25 @@ public class AccountService {
 		return account;
 	}
 
-	public void updateExistingAccount (Account existingAccount, Account account, User user) {
+//	public void updateExistingAccount (Account existingAccount, Account account, Long userId, User user) {
+//		if (existingAccount != null) {
+//			existingAccount.setAccountName(account.getAccountName());
+//			account = existingAccount;
+//			account.getUsers().add(user);
+//			user.getAccounts().add(account);
+//			accountRepo.save(account);
+//			userService.saveUser(user);
+//			User existingUser = userService.findById(userId);
+//			userService.updateExistingUser(existingUser, user);
+//		}
+//	}
+
+	public void updateExistingAccount (Account existingAccount, Account account) {
 		if (existingAccount != null) {
 			existingAccount.setAccountName(account.getAccountName());
-			existingAccount.getUsers().add(user);
-			user.getAccounts().add(existingAccount);
 			accountRepo.save(existingAccount);
-			userService.saveUser(user);
 		}
 	}
+
 
 }

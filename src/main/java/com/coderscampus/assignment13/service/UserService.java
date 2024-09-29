@@ -96,8 +96,8 @@ public class UserService {
 
 				addressService.saveAddress(address);
 			}
-
-			userService.saveUser(existingUser);
+			user = existingUser;
+			userService.saveUser(user);
 		}
 	}
 
