@@ -35,6 +35,14 @@ public class UserController {
 		return "users";
 	}
 
+	@PostMapping("/users")
+	public String postOneUser(User user) {
+		Long userId = user.getUserId();
+		User existingUser = userService.findById(userId);
+		userService.updateExistingUser(existingUser, user);
+		return "redirect:/users/" + user.getUserId();
+	}
+
 	@GetMapping("/register")
 	public String getCreateUser (ModelMap model) {
 		model.put("user", new User());
