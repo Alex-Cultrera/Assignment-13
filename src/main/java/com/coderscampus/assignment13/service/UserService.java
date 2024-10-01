@@ -74,8 +74,11 @@ public class UserService {
 	public void updateExistingUser (User existingUser, User user) {
 		if (existingUser != null) {
 			existingUser.setUsername(user.getUsername());
-			existingUser.setPassword(user.getPassword());
 			existingUser.setName(user.getName());
+
+			if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+				existingUser.setPassword(user.getPassword());
+			}
 
 			Address address = existingUser.getAddress();
 			if (address != null) {
