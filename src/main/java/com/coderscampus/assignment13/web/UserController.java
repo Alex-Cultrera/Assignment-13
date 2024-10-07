@@ -1,30 +1,30 @@
 package com.coderscampus.assignment13.web;
 
-import java.util.Arrays;
-import java.util.Set;
-
+import com.coderscampus.assignment13.domain.User;
 import com.coderscampus.assignment13.service.AccountService;
 import com.coderscampus.assignment13.service.AddressService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.coderscampus.assignment13.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.coderscampus.assignment13.domain.User;
-import com.coderscampus.assignment13.service.UserService;
+import java.util.Set;
 
 @Controller
 public class UserController {
 	
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private AccountService accountService;
-	@Autowired
-	private AddressService addressService;
-	
+	private final UserService userService;
+	private final AccountService accountService;
+	private final AddressService addressService;
+
+	public UserController(UserService userService, AccountService accountService, AddressService addressService) {
+		this.userService = userService;
+		this.accountService = accountService;
+		this.addressService = addressService;
+	}
+
 	@GetMapping("/users")
 	public String getAllUsers(ModelMap model) {
 		Set<User> users = userService.findAll();
@@ -33,14 +33,6 @@ public class UserController {
 			model.put("user", users.iterator().next());
 		}
 		return "users";
-	}
-
-	@PostMapping("/users")
-	public String postOneUser(User user) {
-		Long userId = user.getUserId();
-		User existingUser = userService.findById(userId);
-		userService.updateExistingUser(existingUser, user);
-		return "redirect:/users/" + user.getUserId();
 	}
 
 	@GetMapping("/register")
@@ -53,31 +45,30 @@ public class UserController {
 	public String postCreateUser (User user) {
 		addressService.createNewUserAddress(user);
 		accountService.createDefaultUserAccounts(user);
-		userService.saveUser(user);
+		userService.save(user);
 		return "redirect:/register";
 	}
 
 	@GetMapping("/users/{userId}")
-	public String getOneUser (ModelMap model, @PathVariable Long userId) {
+	public String getUser (ModelMap model, @PathVariable Long userId) {
 		User user = userService.findById(userId);
 		if (user == null) {
 			return "redirect:/users";
 		}
-		model.put("users", Arrays.asList(user));
 		model.put("user", user);
 		model.put("accounts", user.getAccounts());
 		return "user/read";
 	}
 
 	@PostMapping("/users/{userId}/update")
-	public String updateOneUser(@PathVariable Long userId, User user) {
+	public String updateUser(@PathVariable Long userId, User user) {
 		User existingUser = userService.findById(userId);
-		userService.updateExistingUser(existingUser, user);
+		userService.update(existingUser, user);
 		return "redirect:/users/" + user.getUserId();
 	}
 
 	@PostMapping("/users/{userId}/delete")
-	public String deleteOneUser (@PathVariable Long userId) {
+	public String deleteUser(@PathVariable Long userId) {
 		userService.delete(userId);
 		return "redirect:/users";
 	}

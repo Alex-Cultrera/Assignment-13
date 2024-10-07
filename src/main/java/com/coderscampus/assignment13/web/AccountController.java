@@ -16,10 +16,13 @@ import java.util.Arrays;
 @Controller
 public class AccountController {
 	
-	@Autowired
-	private AccountService accountService;
-	@Autowired
-	private UserService userService;
+	private final AccountService accountService;
+	private final UserService userService;
+
+	public AccountController(AccountService accountService, UserService userService) {
+		this.accountService = accountService;
+		this.userService = userService;
+	}
 
 	@GetMapping("/users/{userId}/account")
 	public String getCreateAccount(ModelMap model, @PathVariable Long userId) {

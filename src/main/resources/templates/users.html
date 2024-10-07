@@ -1,40 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
-	<head>
-		<title>Users</title>
-	</head>
-	<body>
-		<h1>Users</h1>
-		
-		<div th:if="${#lists.size(users) == 1}">
-			<div>
-				<span> <a th:href="@{/users/{userId}(userId=${user.userId})}">[[${user.userId}]]</a></span><br/>
-				<span th:text="${user.username}"></span><br/>
-				<span th:text="${user.name}"></span><br/>
-				<span th:text="${user.password}"></span>
-				<div th:each="account : ${user.accounts}">
-				<span>
-						<a th:href="@{/users/{userId}/account/{accountId}(userId=${user.userId}, accountId=${account.accountId})}">[[${account.accountName}]]</a>
-				</span>
-				</div>
-			</div>
-			<form th:action="@{/users/{userId}/delete(userId=${user.userId})}" method="post">
-				<input type="submit" value="Delete User" />
-			</form>
-		</div>
-		
-		<div th:unless="${#lists.size(users) == 1}" th:each="user : ${users}">
-		    <span> <a th:href="@{/users/{userId}(userId=${user.userId})}">[[${user.userId}]]</a></span><br/>
-			<span th:text="${user.username}"></span><br/>
-			<span th:text="${user.name}"></span><br/>
-			<span th:text="${user.password}"></span>
-			<div th:each="account : ${user.accounts}">
-				<span>
-						<a th:href="@{/users/{userId}/account/{accountId}(userId=${user.userId}, accountId=${account.accountId})}">[[${account.accountName}]]</a>
-				</span>
-			</div>
-			<hr/>
-		</div>
-	</body>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Users</title>
+</head>
+<body>
+<h1>Users</h1>
+
+<div th:each="user : ${users}">
+    <span> <a th:href="@{/users/{userId}(userId=${user.userId})}">[[${user.userId}]]</a></span><br/>
+    <span th:text="${user.username}"></span><br/>
+    <span th:text="${user.name}"></span><br/>
+    <span th:text="${user.password}"></span>
+    <div th:each="account : ${user.accounts}">
+		<span>
+			<a th:href="@{/users/{userId}/account/{accountId}(userId=${user.userId}, accountId=${account.accountId})}">[[${account.accountName}]]</a>
+		</span>
+    </div>
+    <hr/>
+</div>
+</body>
 </html>
 
