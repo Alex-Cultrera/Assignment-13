@@ -2,21 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Users</title>
+    <link href="/users.css" type="text/css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/38d88a400f.js" crossorigin="anonymous"></script>
 </head>
-<body>
-<h1>Users</h1>
 
+<header>
+        <p id="users">Users</p>
+        <button>Create new User</button>
+</header>
+
+<body>
 <div th:each="user : ${users}">
-    <span> <a th:href="@{/users/{userId}(userId=${user.userId})}">[[${user.userId}]]</a></span><br/>
-    <span th:text="${user.username}"></span><br/>
-    <span th:text="${user.name}"></span><br/>
-    <span th:text="${user.password}"></span>
-    <div th:each="account : ${user.accounts}">
-		<span>
-			<a th:href="@{/users/{userId}/account/{accountId}(userId=${user.userId}, accountId=${account.accountId})}">[[${account.accountName}]]</a>
-		</span>
+    <div class="userCard">
+        <span class="container">
+            <a class="fullName" th:text="${user.name}"></a>
+            <a class="editIconClass" th:href="@{/users/{userId}(userId=${user.userId})}">
+                <i id="editIcon" class="fa-solid fa-pen-to-square fa-lg"></i>
+            </a>
+        </span>
+        <hr/>
+        <span class="userId">User Id: </span><span>[[${user.userId}]]</span><br/>
+        <span class="username">Username: </span><span th:text="${user.username}"></span><br/>
+        <span class="password">Password: </span><span th:text="${user.password}"></span>
+        <hr/>
+        <div class="address">Address: <br/></div>
+            <a id="addressInfo" th:if="${user.address.addressLine1 != null}">
+                <span id="a1" th:text="${user.address.addressLine1}"></span><br/>
+                <span id="a2" th:text="${user.address.addressLine2}"></span><br/>
+                <a id="comma1" th:if="${user.address.region != ''}"><span id="a3" th:text="${user.address.city}"></span><a id="comma" >,</a></a>
+                <a id="comma2" th:if="${user.address.region == ''}"><span id="a3" th:text="${user.address.city}"></span></a>
+                <span id="a4" th:text="${user.address.region}"></span>
+                <span id="a5" th:text="${user.address.zipCode}"></span><br/>
+                <span id="a6" th:text="${user.address.country}"></span><br/>
+            </a>
+            <a th:if="${user.address.addressLine1 == null}">
+                <div></div>
+            </a>
+        <hr/>
+        <div class="accounts">Accounts:<br/></div>
+        <div th:each="account : ${user.accounts}">
+            <span>
+                <a id="accountInfo" th:href="@{/users/{userId}/account/{accountId}(userId=${user.userId}, accountId=${account.accountId})}">[[${account.accountName}]]</a>
+            </span>
+        </div>
     </div>
-    <hr/>
 </div>
 </body>
 </html>

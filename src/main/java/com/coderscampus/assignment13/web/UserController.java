@@ -35,6 +35,11 @@ public class UserController {
 		return "users";
 	}
 
+	@PostMapping("/users")
+	public String postAllUsers(ModelMap model) {
+		return "redirect:/users";
+	}
+
 	@GetMapping("/register")
 	public String getCreateUser (ModelMap model) {
 		model.put("user", new User());
@@ -43,9 +48,13 @@ public class UserController {
 
 	@PostMapping("/register")
 	public String postCreateUser (User user) {
+		if (user.getUsername().isEmpty() || user.getPassword().isEmpty()) {
+			return "redirect:/register";
+		} else {
 		addressService.createNewUserAddress(user);
 		accountService.createDefaultUserAccounts(user);
 		userService.save(user);
+		}
 		return "redirect:/register";
 	}
 

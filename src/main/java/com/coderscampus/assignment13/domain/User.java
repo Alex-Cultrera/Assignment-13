@@ -5,13 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity // Class name = User, DB Table name = user
 @Table(name = "users")
 public class User {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
+//	@NotBlank(message = "Username must not be blank")
 	private String username;
+//	@NotBlank(message = "Password must not be blank")
 	private String password;
 	private String name;
 	private LocalDate createdDate;
