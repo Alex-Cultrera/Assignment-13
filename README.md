@@ -10,6 +10,6 @@ Project where I created an app that allows the User to register a username and p
 </ul>
 
 # Technologies 
-(Client-side / Frontend): Thymeleaf / HTML, CSS and JavaScript
-(Server-side / Backend): Java, Spring MVC
-(Database): Hibernate ORM to manage all CRUD operations with the MySQL database
+-(Client-side / Frontend): Thymeleaf / HTML, CSS and JavaScript
+-(Server-side / Backend): Java, Spring MVC
+-(Database): Hibernate ORM to manage all CRUD operations with the MySQL database
