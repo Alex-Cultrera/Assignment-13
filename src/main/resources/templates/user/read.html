@@ -2,12 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>User</title>
-    <link href="/main.css" type="text/css" rel="stylesheet" />
+    <link href="/userRead.css" type="text/css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/38d88a400f.js" crossorigin="anonymous"></script>
 </head>
-<body>
-<h1>User</h1>
+<header>
+    <p>User</p>
+</header>
 
-<div>
+<body>
+
+<main class="personalInfo">
+    <h2>
+        Personal Information
+    </h2>
     <form th:action="@{/users/{userId}/update(userId=${user.userId})}" method="post">
         <div>
             Username: <input type="text" th:field="${user.username}"/>
@@ -42,12 +49,14 @@
         <div>
             <br>
         </div>
-        <div>
+        <div id="updateUser">
             <input type="submit" value="Update User"/>
         </div>
     </form>
-    <form th:action="@{/users/{userId}/delete(userId=${user.userId})}" method="post">
-        <input type="submit" value="Delete User"/>
+    <form id="deleteUser" th:action="@{/users/{userId}/delete(userId=${user.userId})}" method="post">
+        <div>
+            <input type="submit" value="Delete User"/>
+        </div>
     </form>
     <div>
         <br>
@@ -56,24 +65,28 @@
     <h2>
         Accounts
     </h2>
-    <div th:each="account : ${accounts}">
-        <span> <a
-                th:href="@{/users/{userId}/account/{accountId}(userId=${user.userId}, accountId=${account.accountId})}"> [[${account.accountName}]]</a></span>
+    <div class="accountDiv" th:each="account : ${accounts}" th:if="${account.accountName != ''}">
+        <span> <a id="accountInfo"
+                th:href="@{/users/{userId}/account/{accountId}(userId=${user.userId}, accountId=${account.accountId})}">[[${account.accountName}]]</a></span>
         <br>
+    </div>
+    <div class="newAccountDiv">
+        <br>
+        <a id="newBankAccount" th:href="@{/users/{userId}/account(userId=${user.userId})}">
+            <button type="submit">
+                <i class="fa-solid fa-circle-plus fa-md" style="color: white;"></i> Open New Account
+            </button>
+        </a>
+
     </div>
     <div>
         <br>
-        <a class="anchor" th:href="@{/users/{userId}/account(userId=${user.userId})}">
-            <input type="submit" value="Create New Bank Account"/>
+        <a id="back" th:href="@{/users}" th:if="${userId != null}">
+            <button>Back</button>
         </a>
     </div>
-    <div>
-        <br>
-        <a class="anchor" th:href="@{/users}" th:if="${userId != null}">Back</a>
-    </div>
 
-</div>
-
+</main>
 
 </body>
 </html>
