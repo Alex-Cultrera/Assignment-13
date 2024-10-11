@@ -4,6 +4,7 @@ import com.coderscampus.assignment13.domain.Account;
 import com.coderscampus.assignment13.domain.User;
 import com.coderscampus.assignment13.repository.AccountRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -53,5 +54,15 @@ public class AccountService {
 		}
 	}
 
+	@Transactional
+	public void delete(Long accountId) {
+		Account existingAccount = accountRepo.findById(accountId)
+				.orElseThrow(() -> new RuntimeException("Account not found"));
 
+		for (User user : existingAccount.getUsers()) {
+			user.getAccounts().remove(existingAccount);
+		}
+
+		accountRepo.delete(existingAccount);
+	}
 }

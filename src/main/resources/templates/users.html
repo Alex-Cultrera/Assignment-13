@@ -28,7 +28,7 @@
         <div class="address">Address: <br/></div>
             <a id="addressInfo" th:if="${user.address.addressLine1 != null}">
                 <span id="a1" th:text="${user.address.addressLine1}"></span><br/>
-                <span id="a2" th:text="${user.address.addressLine2}"></span><br/>
+                <a id="line2" th:if="${user.address.addressLine2 != ''}"><span id="a2" th:text="${user.address.addressLine2}"></span><br/></a>
                 <a id="comma1" th:if="${user.address.region != ''}"><span id="a3" th:text="${user.address.city}"></span><a id="comma" >,</a></a>
                 <a id="comma2" th:if="${user.address.region == ''}"><span id="a3" th:text="${user.address.city}"></span></a>
                 <span id="a4" th:text="${user.address.region}"></span>
@@ -40,7 +40,7 @@
             </a>
         <hr/>
         <div class="accounts">Accounts:<br/></div>
-        <div th:each="account : ${user.accounts}">
+        <div th:each="account : ${user.accounts}" th:if="${account.accountName != ''}">
             <span>
                 <a id="accountInfo" th:href="@{/users/{userId}/account/{accountId}(userId=${user.userId}, accountId=${account.accountId})}">[[${account.accountName}]]</a>
             </span>

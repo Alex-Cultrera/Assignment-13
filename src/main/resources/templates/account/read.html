@@ -2,25 +2,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Bank Account</title>
-    <link href="/main.css" type="text/css" rel="stylesheet" />
+    <link href="/account.css" type="text/css" rel="stylesheet" />
 </head>
-<body>
-<h1>[[${account.accountName}]]</h1>
+<header>
+    <p>[[${account.accountName}]]</p>
+</header>
 
-<form th:action="@{/users/{userId}/account/{accountId}(userId=${user.userId}, accountId=${account.accountId})}"
-      method="post">
+<body>
+<main>
+
+
+    <form th:action="@{/users/{userId}/account/{accountId}(userId=${user.userId}, accountId=${account.accountId})}"
+          method="post">
+        <div>
+            Account Name:
+            <input type="text" th:field="${account.accountName}"/>
+        </div>
+        <div id="saveAccount">
+            <input type="submit" value="Update Account"/>
+            <hr/>
+        </div>
+    </form>
+    <form th:action="@{/users/{userId}/account/{accountId}/delete(userId=${user.userId}, accountId=${account.accountId})}" method="post">
+        <div id="deleteAccount">
+            <input type="submit" value="Delete Account"/>
+        </div>
+    </form>
     <div>
-        Account Name:
-        <input type="text" th:field="${account.accountName}"/>
+        <br>
+        <a id="back" th:href="@{/users/{userId}(userId=${user.userId})}" th:if="${userId != null}">
+            <button>Back</button>
+        </a>
     </div>
-    <div>
-        <input type="submit" value="Save Account"/>
-        <hr/>
-    </div>
-</form>
-<div>
-    <br>
-    <a class="anchor" th:href="@{/users/{userId}(userId=${user.userId})}" th:if="${userId != null}">Back</a>
-</div>
+</main>
 </body>
 </html>

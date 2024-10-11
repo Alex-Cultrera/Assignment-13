@@ -39,8 +39,16 @@ body main {
     background: rgb(240, 241, 243);
 }
 
-h2, a, span, div, form {
+form {
+    margin-top: 5%;
     background: rgb(240, 241, 243);
+    width: 360px;
+    border-radius: 10px;
+}
+
+form div {
+    background: rgb(240, 241, 243);
+    width: 360px;
 }
 
 form div, input {
@@ -49,104 +57,49 @@ form div, input {
     align-items: center;
 }
 
-form div {
-    padding-bottom: 3px;
-}
-
-main form div input {
-
+a, div, form {
+    background: rgb(240, 241, 243);
 }
 
 input {
     background: white;
     padding-left: 5px;
     padding-bottom: 3px;
-    width: 200px;
     height: 25px;
     margin-bottom: 1%;
     margin-left: 1%;
     border-radius: 5px;
+    width: 200px;
 }
 
-.accountDiv {
-    margin-bottom: 0px;
-    padding-bottom: 0px;
-}
-
-#accountInfo {
-    color: rgb(52, 153, 160);
-}
-
-#accountInfo:hover {
-    color: black;
-}
-
-#updateUser, #deleteUser {
+#saveAccount, #deleteAccount {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-basis: content;
     height: 30px;
+    width: auto;
 }
 
-#updateUser input, #deleteUser input {
+#saveAccount input, #deleteAccount input {
     color: white;
     font-weight: bold;
     border: none;
     text-decoration: none;
     padding: 5px 15px 10px 15px;
+    margin-top: 15px;
     width: fit-content;
 }
 
-#updateUser input {
+#saveAccount input {
     background: rgb(52, 153, 160);
 }
 
-#deleteUser input {
+#deleteAccount input {
     background: red;
 }
 
-#updateUser input:hover, #deleteUser input:hover {
-    box-shadow: 0px 0px 5px black;
-    0px 0px 25px black;
-    0px 0px 50px black;
-    0px 0px 100px black;
-}
-
-.newAccountDiv {
-    margin-top: 0px;
-    padding-top: 0px;
-}
-
-#newBankAccount {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 30px;
-    text-decoration: none;
-    margin-top: 0px;
-}
-
-#newBankAccount button, #newBankAccount button i {
-    background: rgb(52, 153, 160);
-    color: white;
-    font-weight: bold;
-    border: none;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    border-radius: 10px;
-}
-
-#newBankAccount button {
-    padding: 10px 15px 10px 10px;
-    margin-top: 0px;
-}
-
-#newBankAccount button i {
-    margin-right: 7px;
-}
-
-#newBankAccount button:hover {
+#saveAccount input:hover, #deleteAccount input:hover {
     box-shadow: 0px 0px 5px black;
     0px 0px 25px black;
     0px 0px 50px black;
@@ -156,7 +109,7 @@ input {
 #back {
     margin-top: 10px;
     display: inline-flex;
-    align-items: center;
+    align-items: left;
     text-decoration: none;
 }
 
@@ -176,4 +129,5 @@ input {
     0px 0px 50px black;
     0px 0px 100px black;
 }
+
 
