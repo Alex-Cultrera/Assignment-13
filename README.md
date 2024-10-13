@@ -1,6 +1,6 @@
 # Bank Account App
 
-Project where I created an app that allows the User to register a username and password. The new user has a Savings and Checking account created by default. The user can edit the name of their accounts as well as open new accounts. The user can also update personal information such as: 
+Project where I created a web app that allows the User to register a username and password. The new user has a Savings and Checking account created by default. The user can edit the name of their accounts as well as open new accounts. The user can also update personal information such as: 
 
 <ul>
   <li>Username</li>
